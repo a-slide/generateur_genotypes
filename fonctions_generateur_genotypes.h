@@ -1,0 +1,10 @@
+void usage (char*);
+int** create_int_mat (int, int);
+void print_int_mat (int**, int, int);
+int** create_zero_mat (int, int);
+int** create_haplo (int, int);
+int** create_geno (int**, int, int, int, int);
+int ambiguity (int**, int, int, int, int);
+void export_geno (int**, int**, int, int);
+FILE* init_file_ptr (char*);
+void count_haplo_pairs (int**, int, int);
