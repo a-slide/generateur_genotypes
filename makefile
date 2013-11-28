@@ -20,17 +20,17 @@ BIN = generateur_genotypes
 all: $(BIN)
 	# Ensemble des executables à produire
 
-generateur_genotypes: main_generateur_genotypes.o fonctions_generateur_genotypes.o
+generateur_genotypes: generateur_genotypes.o ptr_allocation.o
 	$(CC) $^ $(LDFLAGS) -o $@
 	# Edition de lien a partir des fichiers objets
 
-
-main_generateur_genotypes.o: main_generateur_genotypes.c fonctions_generateur_genotypes.h
+generateur_genotypes.o: generateur_genotypes.c generateur_genotypes.h ptr_allocation.h
 	$(CC) -c $< $(CFLAGS) -o $@
-
-fonctions_generateur_genotypes.o: fonctions_generateur_genotypes.c fonctions_generateur_genotypes.h
+	# Compilation de generateur_genotypes.c
+	
+ptr_allocation.o: ptr_allocation.c ptr_allocation.h
 	$(CC) -c $< $(CFLAGS) -o $@ 
-
+	# Compilation de ptr_allocation.c
 
 ##################### INSTRUCTIONS DE NETTOYAGE ########################
 
