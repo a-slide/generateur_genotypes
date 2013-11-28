@@ -18,7 +18,6 @@ BIN = generateur_genotypes
 # $@ =  Cible # $^ = liste des dépendances # $< Première dépendance #
 
 all: $(BIN)
-	# Ensemble des executables à produire
 
 generateur_genotypes: generateur_genotypes.o ptr_allocation.o
 	$(CC) $^ $(LDFLAGS) -o $@
