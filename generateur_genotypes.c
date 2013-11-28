@@ -189,7 +189,8 @@ int** create_geno (int** tab_haplo)
 			printf ("Ajustement automatique du nombre de positions ambigues tolérées à %d\n", AMB_MAX);
 		} 
 	} while (ambiguity ( tab_haplo, tab_geno [0][0], tab_geno [0][1]));  // test de compatibilité
-	printf("\nGenotype # 0 :\t\t%d Essai(s) necessaire(s)\tConstitué des haplotypes %d %d\n", j, tab_geno [0][0], tab_geno [0][1]);
+	printf("\nGenotype # 0 :\t\t%d Essai%snecessaire%s\tConstitué des haplotypes %d %d\n",\
+	j, ((j>1)?"s ":" "), ((j>1)?"s ":" "), tab_geno [0][0], tab_geno [0][1]);
 
 /* ETAPE 2 AMPLIFICATION */
  
@@ -200,7 +201,9 @@ int** create_geno (int** tab_haplo)
 			tab_geno [i][1] = (rand () % NBR_HAPLO); 			// ... Et d'un second haplotype tiré aléatoirement dans la liste
 			j++;
 		} while ( ambiguity ( tab_haplo, tab_geno [i][0], tab_geno [i][1])); // test de compatibilité
-		printf("Genotype # %d:\t\t%d Essai(s) necessaire(s)\tConstitué des haplotypes %d %d\n", i, j, tab_geno [i][0], tab_geno [i][1]);
+		
+		printf("Génotype # %d:\t\t%d Essai%snecessaire%s\tConstitué des haplotypes %d %d\n",\
+		i, j, ((j>1)?"s ":" "), ((j>1)?"s ":" "), tab_geno [i][0], tab_geno [i][1]);
 	}
 	return tab_geno;
 }
