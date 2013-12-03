@@ -68,7 +68,7 @@
 	printf ("\tNombre de genotypes à créer à partir des haplotypes = %d\n", NBR_GENO);
 	printf ("\tTaille des genotypes/haplotypes = %d\n", TAILLE);
 	printf ("\tNombre maximal d'ambiguités tolérées = %d\n", AMB_MAX);
-	printf ("\tNom de sortie = %s\n", OUTPUT_NAME);
+	printf ("\tPrefixe du nom de sortie = %s\n", OUTPUT_NAME);
 
 	/******** Appels fonctions *********/
 	
@@ -335,17 +335,21 @@ int validation (void)
 			case 'g':
 				printf ("\n\nExport des genotypes fichier texte de genotype\n");
 				return 1;
+				break;
 			case 'R':
 			case 'r':
 				printf ("\n\nNouveau tirage d'haplotypes avec les mêmes paramètres\n");
 				return 0;
+				break;
 			case 'Q':
 			case 'q':
 				printf ("\n\nSortie du programme\n");
 				exit (EXIT_FAILURE);
+				break;
 			default:
 				printf ("\n\nSaisie non valide, veuillez entrer G, R ou Q\n");
 				valid = 0;
+				break;
 		  }				
 	} while (valid == 0);
 	
@@ -358,9 +362,19 @@ int validation (void)
 void export_geno (int** tab_haplo, int** tab_geno)
 {
 	int i, j;
+	char* name1 = NULL;
+	char* name2 = NULL;
 	
-	FILE* f_haplo_geno = init_file_ptr (strcat(OUTPUT_NAME, "_haplo_geno.txt"), "w");
-	FILE* f_geno = init_file_ptr (strcat(OUTPUT_NAME, "_geno.txt"), "w");
+	// création des noms des fichiers de sortie
+	name1 = malloc_char_string(strlen(OUTPUT_NAME)+1);
+	name2 = malloc_char_string(strlen(OUTPUT_NAME)+1);
+	strcpy (name1, OUTPUT_NAME);
+	strcat (name1, "_haplo_geno.txt");
+	strcpy (name2, OUTPUT_NAME);
+	strcat (name2, "_geno.txt");
+	
+	FILE* f_haplo_geno = init_file_ptr (name1, "w");
+	FILE* f_geno = init_file_ptr (name2, "w");
 	
 	for (i = 0; i < NBR_GENO ; i++)
 	{
