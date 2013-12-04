@@ -44,7 +44,7 @@
         case 'a':
             AMB_MAX = atoi(optarg);
             if (AMB_MAX < 1) usage(argv[0]);
-            if (AMB_MAX < TAILLE) usage(argv[0]);
+            if (AMB_MAX > TAILLE) usage(argv[0]);
 			break;
 		case 'H':
             HOMOZYGOTE = 1;
