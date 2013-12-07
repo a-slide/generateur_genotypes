@@ -11,7 +11,7 @@
  **********************************************************************/
  int main(int argc, char** argv)
 {
-	/******** Declaration et initialisation des variables *********/
+	/******** Déclaration et initialisation des variables *********/
 	
 	int** tab_haplo = NULL;
 	int** tab_geno = NULL;
@@ -51,9 +51,9 @@
             break;
     }
 
-	/******** Parametrage *********/
+	/******** Paramètrage *********/
 	
-	// Si NBR_HAPLO et AMBIGUITE non initialisé dans les options = calcul automatique
+	// Si NBR_HAPLO et AMBIGUITE sont non initialisés dans les options, on les calcules automatiquement
 	if (NBR_HAPLO == 0) NBR_HAPLO = NBR_GENO/3;
 	if (AMB_MAX == 0) AMB_MAX = TAILLE/3;
 	AMB_MAX_INIT = AMB_MAX;
@@ -72,15 +72,15 @@
 	srand (time(NULL));
 	
 	do {
-		// Creation aleatoire des haplotypes et stockage de leur séquence dans tab_haplo
+		// Création aléatoire des haplotypes et stockage de leur séquence dans tab_haplo
 		encadre("GENERATION ALEATOIRE DES HAPLOTYPES");
 		tab_haplo = create_haplo ();
 		
-		// Creation d'une liste de paires d'haplotypes compatibles et stockage de leurs indices dans tab_geno
+		// Création d'une liste de paires d'haplotypes compatibles et stockage de leurs indices dans tab_geno
 		encadre("ASSOCIATION DES HAPLOTYPES EN GENOTYPE COMPATIBLES");
 		tab_geno = create_geno (tab_haplo);
 		
-		// Creation d'une matrice d'association des haplotypes et affichage pour verification visuelle
+		// Création d'une matrice d'association des haplotypes et affichage pour vérification visuelle
 		encadre("MATRICE D'ASSOCIATION");
 		count_haplo_pairs (tab_geno);
 		
@@ -150,17 +150,17 @@ int** create_haplo (void)
 	{
 		for (j = 0 ; j < TAILLE ; j++)
 		{
-			tab_haplo [i][j] = (rand () % 2); // génere un int aleatoire entre 0 et 1
+			tab_haplo [i][j] = (rand () % 2); // On génère un nombre entier aléatoire entre 0 et 1
 		}
 	}
 	
 	printf ("\nHaplotypes générés\n\n");
-	print_int_mat (tab_haplo, NBR_HAPLO, TAILLE); // Pour verifier visuellement les haplotypes générés
+	print_int_mat (tab_haplo, NBR_HAPLO, TAILLE); // On affiche les haplotypes pour vérifier visuellement
 	return tab_haplo;
 }
 
 /***********************************************************************
- * create_geno = Creation de genotypes semi-aléatoires à partir des haplotypes
+ * create_geno = Création de génotypes semi-aléatoires à partir des haplotypes
  **********************************************************************/
 int** create_geno (int** tab_haplo)
 {
@@ -175,10 +175,10 @@ int** create_geno (int** tab_haplo)
 	do {
 		tab_geno [0][0] = (rand () % NBR_HAPLO);
 		tab_geno [0][1] = (rand () % NBR_HAPLO);
-		if (++j > 1000) // Condition de contrôle de de la stringence pour ne pas être bloqué dans une boucle infinie 
+		if (++j > 1000) // Condition de contrôle de la stringence pour ne pas être bloqué dans une boucle infinie 
 		{
-			AMB_MAX++; // Augmentation de la tolérence en position ambigues
-			j = 0; // reinitialisation du compteur de tentatives
+			AMB_MAX++; // Augmentation de la tolérence à propos du nombre de positions ambigues
+			j = 0; // réinitialisation du compteur de tentatives
 			printf ("Paramètres d'entrée trop stringents\n");
 			printf ("Ajustement automatique du nombre de positions ambigues tolérées à %d\n", AMB_MAX);
 		} 
@@ -191,19 +191,19 @@ int** create_geno (int** tab_haplo)
 	for (i = 1; i < NBR_GENO ; i++) {
 		j = 0;
 		do {
-			tab_geno [i][0] = tab_geno [i-1][(rand () % 2)];	// Selection aléatoire d'un haplotype du genotype n-1 ...
-			tab_geno [i][1] = (rand () % NBR_HAPLO); 			// ... Et d'un second haplotype tiré aléatoirement dans la liste
+			tab_geno [i][0] = tab_geno [i-1][(rand () % 2)];	// Séléction aléatoire d'un haplotype du genotype n-1 ...
+			tab_geno [i][1] = (rand () % NBR_HAPLO); 		//Et d'un second haplotype tiré aléatoirement dans la liste
 			j++;
-		} while ( ambiguity ( tab_haplo, tab_geno [i][0], tab_geno [i][1])); // test de compatibilité
+		} while ( ambiguity ( tab_haplo, tab_geno [i][0], tab_geno [i][1])); // test de compatibilité entre les 2 haplotypes
 		
-		printf("Génotype # %d:\t\t%d Essai%snecessaire%s\tConstitué des haplotypes %d %d\n",\
+		printf("Génotype # %d:\t\t%d Essai%snecessaire%s\tConstitué des haplotypes %d %d\n",\ 
 		i, j, ((j>1)?"s ":" "), ((j>1)?"s ":" "), tab_geno [i][0], tab_geno [i][1]);
 	}
 	return tab_geno;
 }
 
 /***********************************************************************
- * ambiguity = retourne 1 si le nbr d'ambiguité est inferieur à AMB_MAX
+ * ambiguity = retourne 1 si le nombre d'ambiguité est inférieur à AMB_MAX
  **********************************************************************/
  
 int ambiguity (int** tab_haplo, int h1, int h2)
@@ -211,47 +211,47 @@ int ambiguity (int** tab_haplo, int h1, int h2)
 	int i;
 	int amb = 0;
 
-// Incrementation de amb à chaque ambiguité constatée
+// Incrémentation de amb à chaque ambiguité constatée
 	for (i = 0; i < TAILLE ; i++)
 		if (tab_haplo [h1][i] != tab_haplo [h2][i]) amb++;
 	
-	if (HOMOZYGOTE == 0)
+	if (HOMOZYGOTE == 0) // Si on a affaire à des hétérozygotes 
 	{
 		if (amb > AMB_MAX || amb == 0) 
 			return 1;
 	}
 	
-	else // HOMOZYGOTE == 1
+	else // Si on a affaire à des homozygotes 
 	{
 		if (amb > AMB_MAX)
 			return 1;
 	}
 	
-	return 0; // Si ambiguité trop elevé
+	return 0; // Si l'ambiguité trop élevée
 }
 
 /***********************************************************************
- * count_haplo_pairs = cree une matrice de la distribution des paires d'haplotypes
+ * count_haplo_pairs = crée une matrice de la distribution des paires d'haplotypes
  **********************************************************************/
 void count_haplo_pairs (int** tab_geno)
 {
 	int i, j;
 	int** tab_count ;
 	
-	// creation d'une matrice d'int initialisé à 0
+	// Création d'une matrice d'entiers initialisée à 0
 	tab_count = calloc_int_mat (NBR_HAPLO, NBR_HAPLO);
 	
 	for (i = 0 ; i < NBR_HAPLO ; i++) // Boucle pour parcourir les numéros d'haplotype
 	{
 		for (j = 0 ; j < NBR_GENO ; j++) // Boucle pour parcourir la première colonne du tableau de couple de génotype
 		{
-			if (tab_geno [j][0] == i) // Si l'haplo en question est trouvé dans tab geno
+			if (tab_geno [j][0] == i) // Si l'haplotype en question est trouvé dans tab_geno
 			{
-				if (tab_geno [j][0] == tab_geno [j][1]) // Cas ou homozygote
+				if (tab_geno [j][0] == tab_geno [j][1]) // Si on a affaire à des homozygotes
 				{
 					tab_count [i][i]++;
 				}
-				else  // Cas ou heterozygote
+				else  // Si on a affaire à des hétérozygotes 
 				{
 					tab_count [i][(tab_geno [j][1])]++;
 					tab_count [(tab_geno [j][1])][i]++;
