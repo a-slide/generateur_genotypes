@@ -20,15 +20,12 @@
 	
 	int optch;
     extern int opterr;
-    char format[] = "o:n:m:t:a:hH";
+    char format[] = "n:m:t:a:hH";
 	opterr = 1;
 	
     while ((optch = getopt(argc, argv, format)) != -1)
     switch (optch)
     {
-        case 'o':
-            OUTPUT_NAME = optarg;
-            break;
         case 'n':
             NBR_GENO = atoi(optarg);
              if (NBR_GENO < 30) usage(argv[0]);
@@ -44,7 +41,7 @@
         case 'a':
             AMB_MAX = atoi(optarg);
             if (AMB_MAX < 1) usage(argv[0]);
-            if (AMB_MAX < TAILLE) usage(argv[0]);
+            if (AMB_MAX > TAILLE) usage(argv[0]);
 			break;
 		case 'H':
             HOMOZYGOTE = 1;
@@ -60,7 +57,7 @@
 	if (NBR_HAPLO == 0) NBR_HAPLO = NBR_GENO/3;
 	if (AMB_MAX == 0) AMB_MAX = TAILLE/3;
 	AMB_MAX_INIT = AMB_MAX;
-	if (OUTPUT_NAME == NULL) usage(argv[0]);
+	
 	
 	encadre ("PARAMETRES D'ENTREE ET REGLAGES");
 	printf ("\tLes génotypes homozygotes sont %s.\n", ((HOMOZYGOTE == 1) ? "autorisés" : "exclus"));
@@ -68,7 +65,6 @@
 	printf ("\tNombre de genotypes à créer à partir des haplotypes = %d\n", NBR_GENO);
 	printf ("\tTaille des genotypes/haplotypes = %d\n", TAILLE);
 	printf ("\tNombre maximal d'ambiguités tolérées = %d\n", AMB_MAX);
-	printf ("\tPrefixe du nom de sortie = %s\n", OUTPUT_NAME);
 
 	/******** Appels fonctions *********/
 	
@@ -121,8 +117,6 @@ void usage (char* prog_name)
 	seront respectivement codés O110, 0010 et 0120.\n\n");
 	
 	fprintf (stderr, "DETAILS DES OPTIONS\n\n\
-	-o	Prefixe du nom du fichier de sortie\n\
-		Il s'agit de la seule option obligatoire du programme\n\n\
 	-n	Nombre de genotypes à créer. Minimun = 30 (par defaut 50)\n\n\
 	-m	Nombre de haplotype à créer. Minimun = 10 (par defaut 16)\n\n\
 		Si l'option n'est pas utilisé 1/3 du nombre de genotype sont generé\n\
@@ -135,8 +129,8 @@ void usage (char* prog_name)
 	-h	Affiche cet ecran d'aide\n\n");
 
 	fprintf (stderr, "EXEMPLES\n\n\
-	%s -o test -H -t 30 -n 200 \n\
-	%s -o test -H -t 30 -n 200 \n\n", prog_name, prog_name );
+	%s -H -t 30 -n 200 \n\
+	%s -H -t 30 -n 200 \n\n", prog_name, prog_name );
 	
 	exit (EXIT_FAILURE);
 }
@@ -362,19 +356,10 @@ int validation (void)
 void export_geno (int** tab_haplo, int** tab_geno)
 {
 	int i, j;
-	char* name1 = NULL;
-	char* name2 = NULL;
-	
-	// création des noms des fichiers de sortie
-	name1 = malloc_char_string(strlen(OUTPUT_NAME)+1);
-	name2 = malloc_char_string(strlen(OUTPUT_NAME)+1);
-	strcpy (name1, OUTPUT_NAME);
-	strcat (name1, "_haplo_geno.txt");
-	strcpy (name2, OUTPUT_NAME);
-	strcat (name2, "_geno.txt");
-	
-	FILE* f_haplo_geno = init_file_ptr (name1, "w");
-	FILE* f_geno = init_file_ptr (name2, "w");
+		
+	// création des fichiers de sortie
+	FILE* f_haplo_geno = init_file_ptr ("liste_haplo_geno.txt", "w");
+	FILE* f_geno = init_file_ptr ("liste_geno.txt", "w");
 	
 	for (i = 0; i < NBR_GENO ; i++)
 	{
