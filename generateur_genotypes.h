@@ -11,7 +11,7 @@
 	int TAILLE = 15;			// Taille des genotypes à creer 
 	int AMB_MAX = 0;			// Si pas initialisé dans getopt = mise à 1/3 SIZE
 	int AMB_MAX_INIT = 0;		// Pour sauvegarde de la valeur de amb max en cas d'ajustement auto par le programme
-	char* OUTPUT_NAME = NULL;	// Nom de sortie du fichier texte
+	
 			
 	/***********************************************************************
 	 * PROTOTYPES
