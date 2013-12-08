@@ -51,7 +51,7 @@
             break;
     }
 
-	/******** Paramètrage *********/
+	/******** Test et paramètrage *********/
 	
 	// Si NBR_HAPLO et AMBIGUITE sont non initialisés dans les options, on les calcules automatiquement
 	if (NBR_HAPLO == 0) NBR_HAPLO = NBR_GENO/3;
@@ -114,15 +114,15 @@ void usage (char* prog_name)
 		1 si 1 haplotype possède l'allèle majeure et l'autre l'allèle mineure\n\
 	Par exemple si le genotype G est constitué des haplotypes Ha = aBCd et Hb = abCd ou les minuscules\n\
 	sont les allèles minneures et les majuscules les allèles majeures, alors les Ha, Hb et G\n\
-	seront respectivement codés O110, 0010 et 0120.\n\n");
+	seront respectivement codés 0110, 0010 et 0120.\n\n");
 	
 	fprintf (stderr, "DETAILS DES OPTIONS\n\n\
-	-n	Nombre de genotypes à créer. Minimun = 30 (par defaut 50)\n\n\
-	-m	Nombre de haplotype à créer. Minimun = 10 (par defaut 16)\n\n\
+	-n	Nombre de genotypes à créer. Minimum = 30 (par defaut 50)\n\n\
+	-m	Nombre de haplotype à créer. Minimum = 10 (par defaut 16)\n\n\
 		Si l'option n'est pas utilisé 1/3 du nombre de genotype sont generé\n\
 		Il n'est pas conseillé de modifier cette valeur\n\n\
-	-t	Taille des genotypes à créer. Minimun = 5 (par defaut 15)\n\n\
-	-a	Nombre maximal d'ambiguités dans les genotypes. Minimun = 1 / Maximum = Taille des genotypes\n\
+	-t	Taille des genotypes à créer. Minimum = 5 (par defaut 15)\n\n\
+	-a	Nombre maximal d'ambiguités dans les genotypes. Minimum = 1 / Maximum = Taille des genotypes\n\
 		Si l'option n'est pas utilisé ce nombre correspondra à 1/3 de la taille (par defaut 5)\n\
 		Il n'est pas conseillé de modifier cette valeur\n\n\
 	-H	Autorise la création de genotypes homozygotes (par defaut non autorisé)\n\n\
@@ -168,7 +168,7 @@ int** create_geno (int** tab_haplo)
 	int** tab_geno;
 	
 	tab_geno = malloc_int_mat (NBR_GENO, 2);
-	printf("\nCréation des genotypes\n\n ");
+	printf("\nCréation des genotypes\n\n");
 
 /* ETAPE 1 INTIALISATION ET AUTO-AJUSTEMENT */
 
@@ -243,7 +243,7 @@ void count_haplo_pairs (int** tab_geno)
 	
 	for (i = 0 ; i < NBR_HAPLO ; i++) // Boucle pour parcourir les numéros d'haplotype
 	{
-		for (j = 0 ; j < NBR_GENO ; j++) // Boucle pour parcourir la première colonne du tableau de couple de génotype
+		for (j = 0 ; j < NBR_GENO ; j++) // Boucle pour parcourir la première colonne du tableau de génotypes
 		{
 			if (tab_geno [j][0] == i) // Si l'haplotype en question est trouvé dans tab_geno
 			{

@@ -37,7 +37,7 @@ ptr_allocation.o: ptr_allocation.c ptr_allocation.h
 	# PHONY = Dependances systematiquement reconstruites
 
 clean:
-	rm -f main_generateur_genotypes.o fonctions_generateur_genotypes.o
+	rm -f ptr_allocation.o generateur_genotypes.o
 	# Supprimer tous les fichiers intermédiaires
 
 mrproper: clean
