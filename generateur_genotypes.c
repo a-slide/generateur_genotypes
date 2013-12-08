@@ -149,13 +149,11 @@ int** create_haplo (void)
 	for (i = 0 ; i < NBR_HAPLO ; i++)
 	{
 		for (j = 0 ; j < TAILLE ; j++)
-		{
-			tab_haplo [i][j] = (rand () % 2); // On génère un nombre entier aléatoire entre 0 et 1
-		}
+			tab_haplo [i][j] = (rand () % 2); 		// Génère un nombre entier aléatoire entre 0 et 1
 	}
 	
 	printf ("\nHaplotypes générés\n\n");
-	print_int_mat (tab_haplo, NBR_HAPLO, TAILLE); // On affiche les haplotypes pour vérifier visuellement
+	print_int_mat (tab_haplo, NBR_HAPLO, TAILLE); 	// Affiche les haplotypes pour vérifier visuellement
 	return tab_haplo;
 }
 
@@ -167,6 +165,8 @@ int** create_geno (int** tab_haplo)
 	int i, j = 0;
 	int** tab_geno;
 	
+	// Tab_geno stock uniquement les indices d'une paire compatible
+	// L'assemblage est fait uniquement à la creation du fichier
 	tab_geno = malloc_int_mat (NBR_GENO, 2);
 	printf("\nCréation des genotypes\n\n");
 
@@ -192,7 +192,7 @@ int** create_geno (int** tab_haplo)
 		j = 0;
 		do {
 			tab_geno [i][0] = tab_geno [i-1][(rand () % 2)];	// Séléction aléatoire d'un haplotype du genotype n-1 ...
-			tab_geno [i][1] = (rand () % NBR_HAPLO); 		//Et d'un second haplotype tiré aléatoirement dans la liste
+			tab_geno [i][1] = (rand () % NBR_HAPLO); 			//Et d'un second haplotype tiré aléatoirement dans la liste
 			j++;
 		} while ( ambiguity ( tab_haplo, tab_geno [i][0], tab_geno [i][1])); // test de compatibilité entre les 2 haplotypes
 		
@@ -357,7 +357,7 @@ void export_geno (int** tab_haplo, int** tab_geno)
 {
 	int i, j;
 		
-	// création des fichiers de sortie
+	// Création des fichiers de sortie
 	FILE* f_haplo_geno = init_file_ptr ("liste_haplo_geno.txt", "w");
 	FILE* f_geno = init_file_ptr ("liste_geno.txt", "w");
 	
@@ -365,6 +365,7 @@ void export_geno (int** tab_haplo, int** tab_geno)
 	{
 		fprintf(f_haplo_geno, "Genotype %d :\t", i);
 		for (j = 0; j < TAILLE ; j++) {
+			// Les genotypes sont assemblés seulement à ce moment là
 			fprintf(f_haplo_geno, "%d", (tab_haplo [tab_geno[i][0]][j] + tab_haplo [tab_geno[i][1]][j]));
 			fprintf(f_geno, "%d", (tab_haplo [tab_geno[i][0]][j] + tab_haplo [tab_geno[i][1]][j]));
 		}
